@@ -12,78 +12,66 @@
         }else{
             $len = strlen($a);
             $arraywords = str_split($a);
-            $last2 = substr($a, 2);
-            $last3 = substr($a, 3);
+            $last1 = substr($a, -1);
+            $last2 = substr($a, -2);
+            $last3 = substr($a, -3);
 
             foreach ($arraywords as $key => $value) {
                 switch ($value){
                     case "0":
                         if(intval($a) == 0){
-                            $newwords = 0;
+                            $newwords = 'Zero';
                         }else{
                             $newwords .= '';
-                        }
-
-                        if($a ==10){
-                            $newwords .= 'Ten';
-                        }
-                         
+                        }                         
                     break;
                     case "1":
                         if($len == 2){                            
-                            switch ($last2){
-                                case "10":
+                            switch ($last1){
+                                case 0:
                                     $newwords .= 'Ten';
                                     break;
-                                case "11":
+                                case 1:
                                     $newwords .= 'Eleven';
                                     break;
-                                case "12":
+                                case 2:
                                     $newwords .= 'Twelve';
                                     break;
-                                case "13":
+                                case 3:
                                     $newwords .= 'Thirteen';
                                     break;
-                                case "14":
+                                case 4:
                                     $newwords .= 'Fourteen';
                                     break;
-                                case "15":
+                                case 5:
                                     $newwords .= 'Fifteen';
                                     break;
-                                case "16":
+                                case 6:
                                     $newwords .= 'Sixteen';
                                     break;
-                                case "17":
+                                case 7:
                                     $newwords .= 'Seventeen';
                                     break;
-                                case "18":
+                                case 8:
                                     $newwords .= 'Eighteen';
                                     break;
-                                case "19":
+                                case 9:
                                     $newwords .= 'Nineteen';
                                     break;
                             }                          
  
                         }else{
                             if($len == 1){
-                                if(intval($last2) > 10 && intval($last2) < 20){
-                                    $newwords .= '';
-                                }elseif(strlen($a) == 2){
-
-                                    if($a ==11){
-                                        $newwords .= 'Eleven';
-                                    }else{
-                                       $newwords .= '-One'; 
-                                    }
-                                    
-                                }elseif(intval($last2) < 10){
-                                    $newwords .= 'One ';
-                                }else{
-                                    $newwords .= '-One'; 
+                                if($last2 > 19){
+                                   $newwords .= '-One'; 
+                                }
+                                if($last3 == 1){
+                                    $newwords .= 'One';
                                 }                                
-                            }else{  
-                                $newwords .= 'One '; 
-                            }
+                            }else{
+                                $newwords .= 'One';
+                            } 
+                             
                         }
                     break;
                     case "2":
@@ -291,9 +279,19 @@
                 }
                 if($len == 4){
                     if($value == "1"){
-                        $newwords .= ' thousand ';
+                        if($last3 < 99){
+                            $newwords .= ' thousand and ';
+                        }else{
+                            $newwords .= ' thousand ';
+                        }  
                     }else{
-                        $newwords .= ' thousands ';
+                        if($last3 == "000"){
+                            $newwords .= ' thousands';
+                        }elseif($last3 < 99){
+                            $newwords .= ' thousands and ';
+                        }else{
+                            $newwords .= ' thousands ';
+                        }                        
                     }
                     
                 }
@@ -303,7 +301,9 @@
                             $newwords .= ' hundred';  
                         }else{
                             $newwords .= ' hundred and ';
-                        }                        
+                        }
+                    }elseif($last3 < 99){
+                        $newwords .= '';
                     }else{
                         if($last2 == "00"){
                             if($value == "0"){
